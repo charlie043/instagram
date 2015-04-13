@@ -1,0 +1,81 @@
+html,
+body {
+  background: #222;
+}
+.loading {
+  padding: 5px;
+  color: #ffe;
+}
+select {
+  position: fixed;
+  z-index: 10;
+}
+select.member {
+  top: 0;
+}
+select.filter {
+  top: 35px;
+}
+select.sort {
+  top: 70px;
+}
+.card-container {
+  margin-top: 100px;
+}
+.card {
+  display: inline-block;
+  position: relative;
+  margin: 10px;
+  width: 90%;
+  max-width: 320px;
+  border: 2px solid #ffe;
+}
+.card img {
+  width: 100%;
+}
+.card img.profile {
+  position: absolute;
+  object-fit: cover;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  top: 5px;
+  left: 5px;
+  width: 35px;
+  height: 35px;
+  margin-right: 5px;
+}
+.card video {
+  width: 100%;
+}
+.card div.caption {
+  border-top: 1px dotted #333;
+  margin-top: 5px;
+  padding-top: 5px;
+  text-align: left;
+  font-size: 12px;
+  line-height: 20px;
+}
+.card .like-comment {
+  text-align: right;
+  width: 100%;
+  padding: 5px;
+  background: #ffe;
+}
+.card .like-comment >span {
+  margin-right: 5px;
+}
+.card .like-comment >span .fa {
+  margin-right: 5px;
+}
+.card .like-comment >span.like .fa {
+  color: #f00;
+}
+.count {
+  text-align: center;
+  font-size: 16px;
+  color: #ffe;
+}
+button.more {
+  display: block;
+  margin: 10px auto;
+}

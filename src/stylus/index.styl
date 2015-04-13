@@ -1,0 +1,75 @@
+html, body
+  background #222
+
+.loading
+  padding 5px
+  color #FFE
+
+select
+  position fixed
+  z-index 10
+  &.member
+    top 0
+
+  &.filter
+    top 35px
+
+  &.sort
+    top 70px
+
+.card-container
+  margin-top 100px
+
+.card
+  display inline-block
+  position relative
+  margin 10px
+  width 90%
+  max-width 320px
+  border 2px solid #FFE
+  img
+    width 100%
+    &.profile
+      position absolute
+      object-fit cover
+      border 2px solid white
+      border-radius 50%
+      top 5px
+      left 5px
+      width 35px
+      height 35px
+      margin-right 5px
+  video
+    width 100%
+
+  div.caption
+    border-top 1px dotted #333
+    margin-top 5px
+    padding-top 5px
+    text-align left
+    font-size 12px
+    line-height 20px
+
+  .like-comment
+    >span
+      margin-right 5px
+      .fa
+        margin-right 5px
+      &.like
+        .fa
+          color #f00
+
+    text-align right
+    width 100%
+    padding 5px
+    background #FFE
+
+.count
+  text-align center
+  font-size 16px
+  color #FFE
+
+button.more
+  display block
+  margin 10px auto
+
