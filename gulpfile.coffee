@@ -9,7 +9,7 @@ del         = require 'del'
 gulp.task 'jsx', ->
   del ['./public/js/*'], ->
     browserify
-      entries: ['./src/jsx/index.jsx']
+      entries: ['./src/jsx/app.jsx']
     .transform(reactify)
     .bundle()
     .pipe source 'index.js'
