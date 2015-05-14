@@ -6,6 +6,7 @@ var Button    = Bootstrap.Button;
 var Input     = Bootstrap.Input;
 var assign    = require('object-assign');
 var Filter    = require('./component/Filter.jsx');
+var Card      = require('./component/Card.jsx');
 
 var App = React.createClass({displayName: "App",
 
@@ -59,9 +60,9 @@ var App = React.createClass({displayName: "App",
       return (React.createElement("div", {className: "loading"}, "loading, please wait..."));
     }
 
-    var cards = this.state.data.map(function(data) {
+    var cards = this.state.data.map(function(data, index) {
       return (
-        React.createElement(Card, {data: data})
+        React.createElement(Card, {key: index, data: data})
       );
     });
 
@@ -84,7 +85,7 @@ $(function() {
 });
 
 
-},{"./component/Filter.jsx":222,"jquery":3,"object-assign":4,"react":221,"react-bootstrap":55}],2:[function(require,module,exports){
+},{"./component/Card.jsx":222,"./component/Filter.jsx":223,"jquery":3,"object-assign":4,"react":221,"react-bootstrap":55}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -34501,6 +34502,52 @@ module.exports = warning;
 module.exports = require('./lib/React');
 
 },{"./lib/React":93}],222:[function(require,module,exports){
+var React     = require('react');
+
+var Card = React.createClass({displayName: "Card",
+
+  propTypes: {
+    data: React.PropTypes.object.isRequired
+  },
+
+  render: function() {
+    var $__0=
+      
+      
+      
+      
+      
+      
+      
+      
+      this.props.data,type=$__0.type,url=$__0.url,id=$__0.id,link=$__0.link,profile=$__0.profile,like=$__0.like,comment=$__0.comment,text=$__0.text;
+
+    var content = (type === 'video') ?
+      (React.createElement("video", {src: url, controls: true})) :
+      (React.createElement("img", {src: url})) ;
+
+    return (
+      React.createElement("div", {className: "card col"}, 
+        React.createElement("img", {className: "profile", src: profile}), 
+        React.createElement("a", {href: link, target: "_blank"}, 
+          content
+        ), 
+        React.createElement("div", {className: "like-comment"}, 
+          React.createElement("span", {className: "like"}, React.createElement("i", {className: "fa fa-heart"}), like, " likes"), 
+          React.createElement("span", {className: "commnet"}, React.createElement("i", {className: "fa fa-comment"}), comment, " comments"), 
+          React.createElement("div", {className: "caption"}, 
+            text
+          )
+        )
+      )
+    );
+  }
+});
+
+module.exports = Card;
+
+
+},{"react":221}],223:[function(require,module,exports){
 var React     = require('react');
 var Bootstrap = require('react-bootstrap');
 var Button    = Bootstrap.Button;

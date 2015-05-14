@@ -5,6 +5,7 @@ var Button    = Bootstrap.Button;
 var Input     = Bootstrap.Input;
 var assign    = require('object-assign');
 var Filter    = require('./component/Filter.jsx');
+var Card      = require('./component/Card.jsx');
 
 var App = React.createClass({
 
@@ -58,9 +59,9 @@ var App = React.createClass({
       return (<div className='loading'>loading, please wait...</div>);
     }
 
-    var cards = this.state.data.map(function(data) {
+    var cards = this.state.data.map(function(data, index) {
       return (
-        <Card data={data} />
+        <Card key={index} data={data} />
       );
     });
 

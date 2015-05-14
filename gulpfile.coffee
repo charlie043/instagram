@@ -10,7 +10,7 @@ gulp.task 'jsx', ->
   del ['./public/js/*'], ->
     browserify
       entries: ['./src/jsx/app.jsx']
-    .transform(reactify)
+    .transform reactify, {stripTypes: true, es6: true}
     .bundle()
     .pipe source 'index.js'
     .pipe gulp.dest './public/js'

@@ -1,22 +1,38 @@
-
 var React     = require('react');
 
 var Card = React.createClass({
 
+  propTypes: {
+    data: React.PropTypes.object.isRequired
+  },
+
   render: function() {
-    var data = this.props.data;
-    var content = (data.type === 'video') ? (<video src={data.url} controls />) : (<img src={data.url} />) ;
+    var {
+      type,
+      url,
+      id,
+      link,
+      profile,
+      like,
+      comment,
+      text
+    } = this.props.data;
+
+    var content = (type === 'video') ?
+      (<video src={url} controls />) :
+      (<img src={url} />) ;
+
     return (
-      <div key={data.id} className='card col'>
-        <img className='profile' src={data.profile} />
-        <a href={data.link} target='_blank'>
+      <div className='card col'>
+        <img className='profile' src={profile} />
+        <a href={link} target='_blank'>
           {content}
         </a>
         <div className='like-comment'>
-          <span className='like'><i className="fa fa-heart"></i>{data.like} likes</span>
-          <span className='commnet'><i className="fa fa-comment"></i>{data.comment} comments</span>
+          <span className='like'><i className="fa fa-heart"></i>{like} likes</span>
+          <span className='commnet'><i className="fa fa-comment"></i>{comment} comments</span>
           <div className='caption'>
-            {data.text}
+            {text}
           </div>
         </div>
       </div>
