@@ -1,5 +1,6 @@
 var $         = require('jquery');
 var React     = require('react');
+var Router    = require('react-router');
 var Bootstrap = require('react-bootstrap');
 var Button    = Bootstrap.Button;
 var Input     = Bootstrap.Input;
