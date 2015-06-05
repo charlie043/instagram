@@ -16,6 +16,7 @@ var createStore = function(defaultState) {
 
     initState: function() {
       this._state = this._defaultState;
+      this.changeState();
       return this.getState();
     },
 

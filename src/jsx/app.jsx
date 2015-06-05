@@ -1,64 +1,69 @@
-var $         = require('jquery');
 var React     = require('react');
 var Router    = require('react-router');
-var Bootstrap = require('react-bootstrap');
-var Button    = Bootstrap.Button;
-var Input     = Bootstrap.Input;
 var assign    = require('object-assign');
-var Filter    = require('./component/Filter.jsx');
-var Card      = require('./component/Card.jsx');
+var {
+  Route
+} = Router;
+
+var {
+  Button
+}  = require('react-bootstrap');;
+
+var {
+  Filter,
+  Card
+} = require('./component');
+
+var InstagramActions = require('./actions/InstagramActions');
+var InstagramStore   = require('./stores/InstagramStore');
 
 var App = React.createClass({
 
+  contextTypes: {
+    router: React.PropTypes.func
+  },
+
+  _setState: function(state) {
+    this.setState(state);
+  },
+
   getInitialState: function() {
-    return {
-      data : [], // show data
-      index: 10,
-      member: null,
-      filter: null,
-      sort  : 'created'
-    };
+    return InstagramStore.initState();
   },
 
   componentDidMount: function() {
-    this.getData();
+    InstagramStore.on('change:state', this._setState);
+    window.addEventListener('hashchange', this.onHashChange);
+    this.onHashChange();
   },
 
-  getData: function() {
-    $.get('/api/media', {
-      member: this.state.member,
-      filter: this.state.filter,
-      sort  : this.state.sort,
-      index : this.state.index
-    }, this.handleData);
+  componentWillUnmount: function() {
+    InstagramStore.removeListener('change:state', this._setState);
+    window.removeEventListener('hashchange', this.onHashChange);
   },
 
-  handleData: function(data) {
-    this.setState({
-      data: data
-    });
+  onHashChange: function() {
+    var router = this.context.router;
+    var query  = router.getCurrentQuery();
+
+    query.limit = this.state.limit;
+    InstagramActions.fetch(query);
+  },
+
+  onChange: function(e) {
+    var router = this.context.router;
+    var query  = router.getCurrentQuery();
+    assign(query, e);
+    router.transitionTo('Top', null, query);
   },
 
   onClick: function() {
-    var index = 10 + this.state.index;
-    this.setState({index: index}, this.getData);
-  },
-
-  onClickAll: function() {
-    this.setState({index: 'max'}, this.getData);
-  },
-
-  onChange: function(state) {
-    state.index = 10;
-    this.setState(state, this.getData);
-    $(window).scrollTop(0);
+    var state = this.state;
+    state.limit = (state.limit+10 < this.state.max) ? state.limit + 10 : this.state.max;
+    this.onHashChange();
   },
 
   render: function() {
-
-    if (!this.state.data.length) {
-      return (<div className='loading'>loading, please wait...</div>);
-    }
 
     var cards = this.state.data.map(function(data, index) {
       return (
@@ -72,14 +77,18 @@ var App = React.createClass({
         <div className='card-container container-fluid '>
           {cards}
         </div>
-        <div className='count'>{this.state.index}/{this.state.data.length}</div>
+        <div className='count'>{this.state.offset}/{this.state.max}</div>
         <Button className='more' onClick={this.onClick} bsStyle='warning' bsSize='large'>もっとみる</Button>
-        <Button className='more' onClick={this.onClickAll} bsStyle='danger' bsSize='large'>すべて表示（重いですPC推奨）</Button>
       </div>
     );
   },
 });
 
-$(function() {
-  React.render(<App />, document.body);
+var routes = (
+  <Route name='Top' path='/' handler={App}>
+  </Route>
+);
+
+Router.run(routes, function(Handler, state) {
+  React.render(<Handler />, document.body);
 });
