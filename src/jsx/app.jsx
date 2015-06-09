@@ -76,8 +76,9 @@ var App = React.createClass({
       sort  : state.sort,
       limit : state.limit
     };
+
     router.transitionTo('Top', null, query);
-    InstagramActions.fetch(state);
+    InstagramActions.fetch(query);
   },
 
   onChange: function(key, value) {
