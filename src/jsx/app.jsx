@@ -1,63 +1,114 @@
-var $         = require('jquery');
 var React     = require('react');
-var Bootstrap = require('react-bootstrap');
-var Button    = Bootstrap.Button;
-var Input     = Bootstrap.Input;
+var Router    = require('react-router');
 var assign    = require('object-assign');
-var Filter    = require('./component/Filter.jsx');
-var Card      = require('./component/Card.jsx');
+var {
+  Route
+} = Router;
+
+var {
+  Button
+}  = require('react-bootstrap');;
+
+var {
+  Filter,
+  Card
+} = require('./component');
+
+var InstagramActions = require('./actions/InstagramActions');
+var InstagramStore   = require('./stores/InstagramStore');
 
 var App = React.createClass({
 
+  contextTypes: {
+    router: React.PropTypes.func
+  },
+
+  _setState: function(state) {
+    this.setState(state, this.onStateChange);
+  },
+
   getInitialState: function() {
-    return {
-      data : [], // show data
-      index: 10,
-      member: null,
-      filter: null,
-      sort  : 'created'
-    };
+    return InstagramStore.initState();
   },
 
   componentDidMount: function() {
-    this.getData();
+    InstagramStore.on('change:state', this._setState);
+    this.initQuery();
   },
 
-  getData: function() {
-    $.get('/api/media', {
-      member: this.state.member,
-      filter: this.state.filter,
-      sort  : this.state.sort,
-      index : this.state.index
-    }, this.handleData);
+  componentWillUnmount: function() {
+    InstagramStore.removeListener('change:state', this._setState);
   },
 
-  handleData: function(data) {
-    this.setState({
-      data: data
-    });
+  initQuery: function() {
+    var state = this.state;
+    var router = this.context.router;
+    var query  = router.getCurrentQuery();
+
+    var _state = {};
+    _state.member = query.member || state.member;
+    _state.filter = query.filter || state.filter;
+    _state.sort   = query.sort   || state.sort;
+    _state.limit  = parseInt(query.limit) || state.limit;
+
+    InstagramActions.setState(_state);
+    InstagramActions.fetch(_state);
+  },
+
+  onStateChange: function() {
+    var router = this.context.router;
+    var path = router.getCurrentPathname();
+    var query = router.getCurrentQuery();
+    var state = this.state;
+
+    if (
+      query.member == state.member &&
+      query.filter == state.filter &&
+      query.sort   == state.sort   &&
+      query.limit  == state.limit
+    ) {
+      return;
+    }
+
+    var query = {
+      member: state.member,
+      filter: state.filter,
+      sort  : state.sort,
+      limit : state.limit
+    };
+    router.transitionTo('Top', null, query);
+    InstagramActions.fetch(state);
+  },
+
+  onChange: function(key, value) {
+    var state = {};
+
+    if (
+      key === 'filter' ||
+      key === 'member'
+    ) {
+      state.limit = 10;
+    }
+
+    state[key] = value;
+
+    InstagramActions.setState(state);
   },
 
   onClick: function() {
-    var index = 10 + this.state.index;
-    this.setState({index: index}, this.getData);
-  },
+    var {
+      max,
+      limit
+    } = this.state;
 
-  onClickAll: function() {
-    this.setState({index: 'max'}, this.getData);
-  },
+    var _limit = (limit+10 < max) ? limit + 10 : max;
 
-  onChange: function(state) {
-    state.index = 10;
-    this.setState(state, this.getData);
-    $(window).scrollTop(0);
+    InstagramActions.setState({
+      limit: _limit
+    });
   },
 
   render: function() {
-
-    if (!this.state.data.length) {
-      return (<div className='loading'>loading, please wait...</div>);
-    }
 
     var cards = this.state.data.map(function(data, index) {
       return (
@@ -71,14 +122,18 @@ var App = React.createClass({
         <div className='card-container container-fluid '>
           {cards}
         </div>
-        <div className='count'>{this.state.index}/{this.state.data.length}</div>
+        <div className='count'>{this.state.offset}/{this.state.max}</div>
         <Button className='more' onClick={this.onClick} bsStyle='warning' bsSize='large'>もっとみる</Button>
-        <Button className='more' onClick={this.onClickAll} bsStyle='danger' bsSize='large'>すべて表示（重いですPC推奨）</Button>
       </div>
     );
   },
 });
 
-$(function() {
-  React.render(<App />, document.body);
+var routes = (
+  <Route name='Top' path='/' handler={App}>
+  </Route>
+);
+
+Router.run(routes, function(Handler, state) {
+  React.render(<Handler />, document.body);
 });

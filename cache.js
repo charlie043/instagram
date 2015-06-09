@@ -19,23 +19,27 @@ exports.update = function update() {
   });
 }
 
-exports.filter = function(member, filter, sort, index) {
+exports.filter = function(query) {
   var data = this.get();
-  sort = sort || 'created';
-  index = (index === 'max') ? data.length : index ;
-  index = ~~index;
+  var sort = query.sort || 'created';
+  var member = query.member;
+  var filter = query.filter;
+  var limit = parseInt(query.limit);
 
-  if (member) {
+  // member filter
+  if (member && member !== 'all') {
     data = _.filter(data, {member: member});
   }
 
-  if (filter) {
+  // media filter
+  if (filter && filter !== 'all') {
     data = _.filter(data, {type: filter});
   }
 
   data = _.sortByOrder(data, sort, false);
+  var max = data.length;
 
-  data = _.slice(data, 0, index);
+  data = _.slice(data, 0, limit);
 
-  return data;
+  return {data: data, max: max};
 }
