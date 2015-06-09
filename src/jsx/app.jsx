@@ -49,7 +49,7 @@ var App = React.createClass({
     _state.member = query.member || state.member;
     _state.filter = query.filter || state.filter;
     _state.sort   = query.sort   || state.sort;
-    _state.limit  = parseInt(query.limit) || state.limit;
+    _state.limit  = parseInt(query.limit) || state.unit;
 
     InstagramActions.setState(_state);
     InstagramActions.fetch(_state);
@@ -78,6 +78,8 @@ var App = React.createClass({
     };
 
     router.transitionTo('Top', null, query);
+
+    query.offset = state.offset;
     InstagramActions.fetch(query);
   },
 
@@ -86,9 +88,12 @@ var App = React.createClass({
 
     if (
       key === 'filter' ||
-      key === 'member'
+      key === 'member' ||
+      key === 'sort'
     ) {
-      state.limit = 10;
+      state.data   = [];
+      state.limit  = this.state.unit;
+      state.offset = 0;
     }
 
     state[key] = value;
@@ -99,10 +104,11 @@ var App = React.createClass({
   onClick: function() {
     var {
       max,
-      limit
+      limit,
+      unit
     } = this.state;
 
-    var _limit = (limit+10 < max) ? limit + 10 : max;
+    var _limit = (limit+unit < max) ? limit+unit : max;
 
     InstagramActions.setState({
       limit: _limit

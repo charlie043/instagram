@@ -50,7 +50,7 @@ var App = React.createClass({displayName: "App",
     _state.member = query.member || state.member;
     _state.filter = query.filter || state.filter;
     _state.sort   = query.sort   || state.sort;
-    _state.limit  = parseInt(query.limit) || state.limit;
+    _state.limit  = parseInt(query.limit) || state.unit;
 
     InstagramActions.setState(_state);
     InstagramActions.fetch(_state);
@@ -79,6 +79,8 @@ var App = React.createClass({displayName: "App",
     };
 
     router.transitionTo('Top', null, query);
+
+    query.offset = state.offset;
     InstagramActions.fetch(query);
   },
 
@@ -87,9 +89,12 @@ var App = React.createClass({displayName: "App",
 
     if (
       key === 'filter' ||
-      key === 'member'
+      key === 'member' ||
+      key === 'sort'
     ) {
-      state.limit = 10;
+      state.data   = [];
+      state.limit  = this.state.unit;
+      state.offset = 0;
     }
 
     state[key] = value;
@@ -101,9 +106,10 @@ var App = React.createClass({displayName: "App",
     var $__0=
       
       
-      this.state,max=$__0.max,limit=$__0.limit;
+      
+      this.state,max=$__0.max,limit=$__0.limit,unit=$__0.unit;
 
-    var _limit = (limit+10 < max) ? limit + 10 : max;
+    var _limit = (limit+unit < max) ? limit+unit : max;
 
     InstagramActions.setState({
       limit: _limit
@@ -43280,9 +43286,11 @@ var Dispatcher   = require('../dispatcher');
 
 var InstagramStore = StoreFactory.create({
   data: [],
-  limit : 10,
+  limit : 0,
   max   : 0,
   offset: 0,
+
+  unit  : 5,
 
   member: 'all',
   filter: 'all',
@@ -43292,10 +43300,11 @@ var InstagramStore = StoreFactory.create({
 InstagramStore.dispatchToken = Dispatcher.register(function(action) {
   switch (action.type) {
     case ActionTypes.SET_INSTAGRAM_DATA:
+      var state = InstagramStore.getState();
       InstagramStore.setState({
-        data: action.data,
+        data: state.data.concat(action.data),
         max : action.max,
-        offset: action.data.length
+        offset: state.offset + action.data.length
       });
       break;
     case ActionTypes.SET_INSTAGRAM_STATE:
@@ -43333,7 +43342,7 @@ var createStore = function(defaultState) {
     },
 
     setState: function(state) {
-      this._state = this._state.mergeDeep(state);
+      this._state = this._state.merge(state);
       this.changeState();
     },
 

@@ -21,7 +21,7 @@ var createStore = function(defaultState) {
     },
 
     setState: function(state) {
-      this._state = this._state.mergeDeep(state);
+      this._state = this._state.merge(state);
       this.changeState();
     },
 

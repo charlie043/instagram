@@ -24,7 +24,8 @@ exports.filter = function(query) {
   var sort = query.sort || 'created';
   var member = query.member;
   var filter = query.filter;
-  var limit = parseInt(query.limit);
+  var limit  = parseInt(query.limit);
+  var offset = parseInt(query.offset);
 
   // member filter
   if (member && member !== 'all') {
@@ -39,7 +40,7 @@ exports.filter = function(query) {
   data = _.sortByOrder(data, sort, false);
   var max = data.length;
 
-  data = _.slice(data, 0, limit);
+  data = _.slice(data, offset, limit);
 
   return {data: data, max: max};
 }

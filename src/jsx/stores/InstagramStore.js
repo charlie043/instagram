@@ -4,9 +4,11 @@ var Dispatcher   = require('../dispatcher');
 
 var InstagramStore = StoreFactory.create({
   data: [],
-  limit : 10,
+  limit : 0,
   max   : 0,
   offset: 0,
+
+  unit  : 5,
 
   member: 'all',
   filter: 'all',
@@ -16,10 +18,11 @@ var InstagramStore = StoreFactory.create({
 InstagramStore.dispatchToken = Dispatcher.register(function(action) {
   switch (action.type) {
     case ActionTypes.SET_INSTAGRAM_DATA:
+      var state = InstagramStore.getState();
       InstagramStore.setState({
-        data: action.data,
+        data: state.data.concat(action.data),
         max : action.max,
-        offset: action.data.length
+        offset: state.offset + action.data.length
       });
       break;
     case ActionTypes.SET_INSTAGRAM_STATE:
