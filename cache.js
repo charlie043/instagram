@@ -27,12 +27,12 @@ exports.filter = function(query) {
   var limit = parseInt(query.limit);
 
   // member filter
-  if (member) {
+  if (member && member !== 'all') {
     data = _.filter(data, {member: member});
   }
 
   // media filter
-  if (filter) {
+  if (filter && filter !== 'all') {
     data = _.filter(data, {type: filter});
   }
 

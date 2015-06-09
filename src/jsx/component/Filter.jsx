@@ -15,9 +15,7 @@ var Filter = React.createClass({
     var value = e.target.value;
 
     if (onChange) {
-      var state = {};
-      state[name] = value;
-      onChange(state);
+      onChange(name, value);
     }
   },
 

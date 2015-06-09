@@ -17,7 +17,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/media', function(req, res) {
   var query = req.query;
   var data = cache.filter(query);
-  console.log(data);
   res.send(data);
 });
 

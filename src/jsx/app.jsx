@@ -24,7 +24,7 @@ var App = React.createClass({
   },
 
   _setState: function(state) {
-    this.setState(state);
+    this.setState(state, this.onStateChange);
   },
 
   getInitialState: function() {
@@ -33,34 +33,79 @@ var App = React.createClass({
 
   componentDidMount: function() {
     InstagramStore.on('change:state', this._setState);
-    window.addEventListener('hashchange', this.onHashChange);
-    this.onHashChange();
+    this.initQuery();
   },
 
   componentWillUnmount: function() {
     InstagramStore.removeListener('change:state', this._setState);
-    window.removeEventListener('hashchange', this.onHashChange);
   },
 
-  onHashChange: function() {
+  initQuery: function() {
+    var state = this.state;
     var router = this.context.router;
     var query  = router.getCurrentQuery();
 
-    query.limit = this.state.limit;
-    InstagramActions.fetch(query);
+    var _state = {};
+    _state.member = query.member || state.member;
+    _state.filter = query.filter || state.filter;
+    _state.sort   = query.sort   || state.sort;
+    _state.limit  = parseInt(query.limit) || state.limit;
+
+    InstagramActions.setState(_state);
+    InstagramActions.fetch(_state);
   },
 
-  onChange: function(e) {
+  onStateChange: function() {
     var router = this.context.router;
-    var query  = router.getCurrentQuery();
-    assign(query, e);
+    var path = router.getCurrentPathname();
+    var query = router.getCurrentQuery();
+    var state = this.state;
+
+    if (
+      query.member == state.member &&
+      query.filter == state.filter &&
+      query.sort   == state.sort   &&
+      query.limit  == state.limit
+    ) {
+      return;
+    }
+
+    var query = {
+      member: state.member,
+      filter: state.filter,
+      sort  : state.sort,
+      limit : state.limit
+    };
     router.transitionTo('Top', null, query);
+    InstagramActions.fetch(state);
+  },
+
+  onChange: function(key, value) {
+    var state = {};
+
+    if (
+      key === 'filter' ||
+      key === 'member'
+    ) {
+      state.limit = 10;
+    }
+
+    state[key] = value;
+
+    InstagramActions.setState(state);
   },
 
   onClick: function() {
-    var state = this.state;
-    state.limit = (state.limit+10 < this.state.max) ? state.limit + 10 : this.state.max;
-    this.onHashChange();
+    var {
+      max,
+      limit
+    } = this.state;
+
+    var _limit = (limit+10 < max) ? limit + 10 : max;
+
+    InstagramActions.setState({
+      limit: _limit
+    });
   },
 
   render: function() {

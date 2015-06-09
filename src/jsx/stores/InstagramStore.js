@@ -6,7 +6,11 @@ var InstagramStore = StoreFactory.create({
   data: [],
   limit : 10,
   max   : 0,
-  offset: 0
+  offset: 0,
+
+  member: 'all',
+  filter: 'all',
+  sort  : 'created'
 });
 
 InstagramStore.dispatchToken = Dispatcher.register(function(action) {
@@ -17,6 +21,9 @@ InstagramStore.dispatchToken = Dispatcher.register(function(action) {
         max : action.max,
         offset: action.data.length
       });
+      break;
+    case ActionTypes.SET_INSTAGRAM_STATE:
+      InstagramStore.setState(action.state);
       break;
     default:
       // no-op
