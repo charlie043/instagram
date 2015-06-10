@@ -26,3 +26,4 @@ gulp.task 'watch', ->
   gulp.watch './src/jsx/**/*', ['jsx']
 
 gulp.task 'default', ['jsx', 'stylus', 'watch']
+gulp.task 'release', ['jsx', 'stylus']
