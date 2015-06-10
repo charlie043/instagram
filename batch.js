@@ -51,7 +51,8 @@ function get(member, member_id, recursive) {
             created: d.created_time,
             comment: d.comments.count,
             text   : d.caption && d.caption.text,
-            profile: d.user.profile_picture
+            profile: d.user.profile_picture,
+            created_time: d.created_time
           };
 
           model.insert('media', insert, function(err) {
