@@ -11,7 +11,8 @@ var {
 
 var {
   Filter,
-  Card
+  Card,
+  Preloader
 } = require('./component');
 
 var InstagramActions = require('./actions/InstagramActions');
@@ -125,6 +126,7 @@ var App = React.createClass({
 
     return (
       <div>
+        <Preloader />
         <Filter onChange={this.onChange} />
         <div className='card-container container-fluid '>
           {cards}

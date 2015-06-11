@@ -29,7 +29,7 @@ var Filter = React.createClass({
     var sort   = query.sort   || 'created';
 
     return (
-      <div className='filters'>
+      <div className='Component_filter'>
         <Input name='member' className='member' value={member} type='select' onChange={this.onChange}>
           <option value='all'>全メンバー</option>
           <option value='moga'>最上もが</option>
