@@ -20,7 +20,13 @@ var Preloader = React.createClass({
   },
 
   render: function() {
-    return this.state.show ? (<div className='Component_Preloader' />) : null;
+    return this.state.show ?
+      (
+        <div className='Component_Preloader'>
+          <p className='loading'>Now Loading...</p>
+        </div>
+      ) :
+      null;
   }
 
 });

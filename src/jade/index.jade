@@ -11,7 +11,7 @@ html
     meta(property='og:image', content='#{og_image}')
 
     meta(name='robots', content='index, follow')
-    meta(name='keywords', content='dempagumi,dempa,idol,moga,pinky,mirin,eimi,risa,でんぱ組,でんぱ,最上もが,古川未鈴,相沢梨紗,夢眠ねむ,成瀬瑛美,藤咲彩音,instagram')
+    meta(name='keywords', content='dempagumi,dempa,idol,moga,pinky,mirin,eimi,risa,でんぱ組,でんぱ,最上もが,古川未鈴,相沢梨紗,夢眠ねむ,成瀬瑛美,藤咲彩音,instagram,インスタグラム')
 
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
     link(rel="stylesheet", href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
@@ -27,8 +27,9 @@ html
       ga('send', 'pageview');
 
   body
-    div.loading loading, please wait... :)
     each post in data
       div #{post.text}
+    div.Component_Preloader
+      p.loading Now Loading...
 
   script(src='/js/index.js', type='text/javascript')
