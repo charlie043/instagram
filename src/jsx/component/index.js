@@ -7,4 +7,5 @@
 module.exports = {
   Card: require("./Card.jsx"),
   Filter: require("./Filter.jsx"),
+  Preloader: require("./Preloader.jsx"),
 };
