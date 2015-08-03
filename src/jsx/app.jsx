@@ -53,7 +53,6 @@ var App = React.createClass({
     _state.limit  = parseInt(query.limit) || state.unit;
 
     InstagramActions.setState(_state);
-    InstagramActions.fetch(_state);
   },
 
   onStateChange: function() {
@@ -66,7 +65,8 @@ var App = React.createClass({
       query.member == state.member &&
       query.filter == state.filter &&
       query.sort   == state.sort   &&
-      query.limit  == state.limit
+      query.limit  == state.limit  &&
+      state.offset != 0
     ) {
       return;
     }
