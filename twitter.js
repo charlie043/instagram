@@ -17,11 +17,65 @@ var client = new Twitter(config.twitter_dempa);
 //});
 
 var text = [
+  '頑張れでんぱ組',
+  'イタリアに行って欲しいでんぱ組',
+  '僕は応援するでんぱ組',
+  '負けないでんぱ組',
+  '明日にむかってでんぱ組',
+  '未来に駆け出せでんぱ組',
+  '世界をとれ、でんぱ組',
+  'ビールがおいしいでんぱ組',
+  '全力で応援でんぱ組',
+  '昨日を超えてけでんぱ組',
+  'えいたそかわいいでんぱ組',
+  'もがちゃん可愛いでんぱ組',
+  'もがちゃん一番可愛いでんぱ組',
+  'もがちゃん最高に可愛いでんぱ組',
+  'もがちゃんちゅきちゅきでんぱ組',
+  'みりんも可愛いでんぱ組',
+  'ねむきゅん可愛いでんぱ組',
+  'ピンキー可愛いでんぱ組',
+  'がおー',
+  'おはんきー！',
+  'りさちゃん可愛いでんぱ組',
+  'ほえぇ〜',
+  'あー',
+  '頑張れ',
+  '獲れよ',
+  '絶対に',
+  '集計方法はいかに',
+  'どこにでもいきたいよ',
+  'がんばれー！！！！',
+  '世界へ',
+  '俺がキミを世界に',
+  '頑張ろう'
 ];
 
-client.post('statuses/update', {
-  status: 'aaa'
-})
+var tag = '#MTVEMA #NominateDempagumi';
+var _word = '';
+
+function _tweet() {
+
+   var word =  _.sample(text) + ' ' + tag;
+
+   if (word === _word) {
+     _tweet();
+      return;
+   }
+
+   _word = word;
+
+   client.post('statuses/update', {
+    status: word
+  }, function() {
+    console.log('success: ' + word);
+  }, function() {
+    console.log('fail: ' + word);
+  });
+}
+
+_tweet();
+setInterval(_tweet, 1000 * 60 * 2);
 
 //client.stream('user', {
 //}, function(stream) {
