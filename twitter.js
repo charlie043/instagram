@@ -80,10 +80,12 @@ function _tweet() {
 
    client.post('statuses/update', {
     status: word
-  }, function() {
+  }, function(err) {
+    if (err) {
+      console.log(err);
+      return;
+    }
     console.log('success: ' + word);
-  }, function() {
-    console.log('fail: ' + word);
   });
 }
 
