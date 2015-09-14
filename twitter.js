@@ -91,6 +91,30 @@ function _tweet() {
 
 _tweet();
 
+
+var _yomigaki = new Twitter(config.twitter_yomigaki);
+
+function yomigaki() {
+  var t = 'でんぱ組ミラノ行くしか！';
+  var date = new Date();
+  var h = date.getHours();
+  var m = date.getMinutes();
+
+  var post = t + h + '時' + m + '分！';
+  console.log(post);
+  _yomigaki.post('statuses/update', {
+    status: post
+  }, function(err) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log('success: ' + post);
+  });
+}
+
+yomigaki();
+
 //client.stream('user', {
 //}, function(stream) {
 //  stream.on('data', function(tweet) {
