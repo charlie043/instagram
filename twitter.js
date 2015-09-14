@@ -48,7 +48,13 @@ var text = [
   'がんばれー！！！！',
   '世界へ',
   '俺がキミを世界に',
-  '頑張ろう'
+  '頑張ろう',
+  'もがちゃん',
+  'りさちゃん',
+  'みりんちゃん',
+  'ねむキュン',
+  'えいちゃん',
+  'ピンちゃん'
 ];
 
 var tag = '#MTVEMA #NominateDempagumi';
@@ -75,7 +81,6 @@ function _tweet() {
 }
 
 _tweet();
-setInterval(_tweet, 1000 * 60 * 2);
 
 //client.stream('user', {
 //}, function(stream) {
