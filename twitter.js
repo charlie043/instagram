@@ -100,7 +100,7 @@ function yomigaki() {
   var h = date.getHours();
   var m = date.getMinutes();
 
-  var post = t + h + '時' + m + '分！';
+  var post = t + h + '時' + m + '分！ ' + tag;
   console.log(post);
   _yomigaki.post('statuses/update', {
     status: post
