@@ -115,21 +115,21 @@ function yomigaki() {
 
 yomigaki();
 
-var _charlie = new Twitter(config.twitter_charlie);
-function charlie() {
-  var post = h + '時' + m + '分！ ' + tag;
-  _charlie.post('statuses/update', {
-    status: post
-  }, function(err) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log('success: ' + post);
-  });
-}
-
-charlie();
+//var _charlie = new Twitter(config.twitter_charlie);
+//function charlie() {
+//  var post = h + '時' + m + '分！ ' + tag;
+//  _charlie.post('statuses/update', {
+//    status: post
+//  }, function(err) {
+//    if (err) {
+//      console.log(err);
+//      return;
+//    }
+//    console.log('success: ' + post);
+//  });
+//}
+//
+//charlie();
 
 
 //client.stream('user', {
