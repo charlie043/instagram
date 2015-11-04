@@ -31,23 +31,23 @@ var Filter = React.createClass({
     return (
       <div className='Component_filter'>
         <Input name='member' className='member' value={member} type='select' onChange={this.onChange}>
-          <option value='all'>全メンバー</option>
-          <option value='moga'>最上もが</option>
-          <option value='nemu'>夢眠ねむ</option>
-          <option value='pinky'>藤咲彩音</option>
-          <option value='risa'>相沢梨紗</option>
-          <option value='mirin'>古川未鈴</option>
-          <option value='eimi'>成瀬瑛美</option>
+          <option value='all'>All members</option>
+          <option value='moga'>Moga Mogami</option>
+          <option value='nemu'>Nemu Yumemi</option>
+          <option value='pinky'>Ayane Fujisaki</option>
+          <option value='risa'>Risa Aizawa</option>
+          <option value='mirin'>Mirin Furukawa</option>
+          <option value='eimi'>Eimi Naruse</option>
         </Input>
         <Input name='filter' className='filter' value={filter} type='select' onChange={this.onChange}>
-          <option value='all'>すべて</option>
-          <option value='image'>写真のみ</option>
-          <option value='video'>動画のみ</option>
+          <option value='all'>All</option>
+          <option value='image'>Photo</option>
+          <option value='video'>Movie</option>
         </Input>
         <Input name='sort' className='sort' value={sort} type='select' onChange={this.onChange}>
-          <option value='created'>最新順</option>
-          <option value='like'>like多い順</option>
-          <option value='comment'>コメント多い順</option>
+          <option value='created'>Latest</option>
+          <option value='like'>like</option>
+          <option value='comment'>comment</option>
         </Input>
     </div>
     );
