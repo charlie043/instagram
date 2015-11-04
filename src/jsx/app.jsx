@@ -132,7 +132,7 @@ var App = React.createClass({
           {cards}
         </div>
         <div className='count'>{this.state.offset}/{this.state.max}</div>
-        <Button className='more' onClick={this.onClick} bsStyle='warning' bsSize='large'>もっとみる</Button>
+        <Button className='more' onClick={this.onClick} bsStyle='warning' bsSize='large'>More</Button>
       </div>
     );
   },
